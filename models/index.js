@@ -30,7 +30,14 @@ const User = db.define("user", {
     validate: { isEmail: true },
   },
 });
-
+Page.beforeCreate((userInstance, optionsObject) => {
+    userInstance.title = generateSlug(userInstance.title)
+  })
+  function generateSlug (title) {
+    // Removes all non-alphanumeric characters from title
+    // And make whitespace underscore
+    return title.replace(/\s+/g, '_').replace(/\W/g, '');
+  }
 module.exports = {
   db,
   Page,
